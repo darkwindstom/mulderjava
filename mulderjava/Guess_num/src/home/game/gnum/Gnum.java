@@ -12,9 +12,9 @@ import org.apache.commons.lang.math.RandomUtils;
  */
 public class Gnum {
 
-	public static String com_random_num = "";
+	public String com_random_num = "";
 	
-	public static LinkedHashSet<Integer> random_num(int num){		
+	public LinkedHashSet<Integer> random_num(int num){		
 		
 		LinkedHashSet<Integer> hs = new LinkedHashSet<Integer>();
 											
@@ -35,10 +35,10 @@ public class Gnum {
 
 	}
 	
-	public static int[] input;
+	public int[] input;
 	
 	
-	public static boolean split_num(int num){
+	public boolean split_num(int num){
 				
 		int[] self = new int[4];
 		
@@ -74,7 +74,7 @@ public class Gnum {
 		
 	}
 	
-	public static LinkedHashSet<Integer> save_set_num(){
+	public LinkedHashSet<Integer> save_set_num(){
 		
 		LinkedHashSet<Integer> hs = new LinkedHashSet<Integer>();
 		
@@ -90,10 +90,10 @@ public class Gnum {
 		
 	}
 	
-	public static int count = 0;
+	public int count = 0;
 	
 	
-	public static boolean display_xAyB(LinkedHashSet<Integer> com, LinkedHashSet<Integer> user){
+	public boolean display_xAyB(LinkedHashSet<Integer> com, LinkedHashSet<Integer> user){
 		
 		boolean t = true;
 			
@@ -141,7 +141,7 @@ public class Gnum {
 		
 	}
 	
-	public static void begin(){
+	public void begin(){
 		
 		Scanner scanner = null;
 		
@@ -151,7 +151,7 @@ public class Gnum {
 		int self = 0;		
 		boolean t = true;
 		
-		com = Gnum.random_num(4);	//random four num
+		com = random_num(4);	//random four num
 			
 		do{
 				
@@ -169,7 +169,7 @@ public class Gnum {
 						System.out.println("請輸入4位數字.....");
 						t = false;
 							
-					}else if(!Gnum.split_num(self)){
+					}else if(!split_num(self)){
 						System.out.println("請輸入不可重複數字.....");
 						t = false;
 							
