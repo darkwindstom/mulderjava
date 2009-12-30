@@ -135,19 +135,51 @@ public class BlackJack {
 	
 	public void com_computing(){
 		
-		JackBean com = get_jack();
+		JackBean com = new JackBean();
 		
-		if(rjack_com + com.getValue() <= 20){
+		boolean t = true;
+		
+		do{
 			
-			rjack_com = rjack_com + com.getValue();
-			System.out.println("電腦加牌");
-			//System.out.println("144: "+rjack_com);
-			
-		}else {
-			System.out.println("電腦不加牌");
-			//System.out.println("148: "+rjack_com);
-			
-		}
+			com = get_jack();
+
+			if(com.getValue() <= 5){
+				//System.out.println("147:");
+				rjack_com = rjack_com + com.getValue();
+				System.out.println("電腦加牌");
+				
+				t = true;
+				
+			}else if(rjack_com < rjack_user){
+				//System.out.println("154:");
+				rjack_com = rjack_com + com.getValue();
+				System.out.println("電腦加牌");
+				
+				t = true;
+				
+			}else {
+				
+				if(rjack_com + com.getValue() <= 20){
+					//System.out.println("163:");
+					rjack_com = rjack_com + com.getValue();
+					System.out.println("電腦加牌");
+					//System.out.println("144: "+rjack_com);
+					
+					t = true;
+					
+				}else {
+					//System.out.println("171:");
+					System.out.println("電腦不加牌");
+					//System.out.println("148: "+rjack_com);
+					
+					t = false;
+					
+				}
+				
+			}
+		
+		}while(t);
+		
 		
 	}
 	
@@ -164,14 +196,6 @@ public class BlackJack {
 			
 			t = true;
 			
-		}else if(rjack_com >= 22){
-			
-			System.out.println("電腦爆點了");
-			money = money + (gamble_money * gamble_num);
-			System.out.println("你的剩下金額為: "+money+" 贏了: "+gamble_money * gamble_num);
-			
-			t = true;
-			
 		}else if(rjack_user == 21){
 			
 			System.out.println("最大點21點! 恭喜你贏了!");
@@ -180,23 +204,7 @@ public class BlackJack {
 			
 			t = true;
 		
-		}else if(rjack_com == 21){
-			
-			System.out.println("電腦得到最大點21點!你輸了!");
-			money = money - (gamble_money * gamble_num);
-			System.out.println("你的剩下金額為: "+money+" 輸了: "+gamble_money * gamble_num);
-			
-			t = true;
-		
-		}/*else if(rjack_user == rjack_com){
-			
-			System.out.println("你的點數為: "+rjack_user+" 電腦的點數為: "+rjack_com+" 平手!");
-			//money = money - (gamble_money * gamble_num);
-			System.out.println("你的剩下金額為: "+money);
-			
-			t = true;
-			
-		}*/	
+		}
 		
 		return t;
 	}
@@ -206,7 +214,24 @@ public class BlackJack {
 		
 		boolean t = true;
 		
-		if(rjack_user > rjack_com){
+		
+		if(rjack_com >= 22){
+		
+			System.out.println("電腦爆點了: "+rjack_com+"點");
+			money = money + (gamble_money * gamble_num);
+			System.out.println("你的剩下金額為: "+money+" 贏了: "+gamble_money * gamble_num);
+			
+			t = true;
+		
+		}else if(rjack_com == 21){
+		
+			System.out.println("電腦得到最大點21點!你輸了!");
+			money = money - (gamble_money * gamble_num);
+			System.out.println("你的剩下金額為: "+money+" 輸了: "+gamble_money * gamble_num);
+			
+			t = true;
+	
+		}else if(rjack_user > rjack_com){
 			
 			System.out.println("你的點數為: "+rjack_user+" 電腦的點數為: "+rjack_com+" 你贏了!");
 			money = money + (gamble_money * gamble_num);
@@ -422,16 +447,16 @@ public class BlackJack {
 					
 					if(as == 1){
 						
-						user =  get_jack();
+						user = get_jack();
+						display_jack(user, com);
+						t = count_user_jack_point();
+						
+					}else {
 						
 						//電腦計算核心
 						//com = get_jack();
 						com_computing();
 						
-						display_jack(user, com);
-						t = count_user_jack_point();
-						
-					}else {
 						//System.out.println("376:");
 						t = count_stop_add_jack();
 						
