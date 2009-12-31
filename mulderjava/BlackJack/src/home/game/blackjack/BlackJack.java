@@ -1,18 +1,26 @@
 package home.game.blackjack;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Scanner;
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import home.game.blackjack.JackBean;
 
+
 public class BlackJack {
 
+	private static Logger logger = Logger.getLogger(BlackJack.class);
+	
 	private int money = 10000;
 	private int gamble_money = 0;
 	private int gamble_num =1;
@@ -308,12 +316,13 @@ public class BlackJack {
 			writer.close(); 
 		
 		} catch (DocumentException e) {
-			e.printStackTrace();
-			System.out.println("176: "+e.getMessage());
+			logger.error("line 315:"+e.getMessage(), e);
+			create_jack_xml();
 		
 		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("181: "+e.getMessage());
+			logger.error("line 319:"+e.getMessage(), e);
+			create_jack_xml();
+			
 		}		
 	}
 	
@@ -335,8 +344,10 @@ public class BlackJack {
 				jb.setUse(element.attributeValue("use"));	
 			}
 			
-		} catch (DocumentException e) {		
-			System.out.println("207: "+e.getMessage());
+		} catch (DocumentException e) {
+			logger.error("line 344:"+e.getMessage(), e);
+			create_jack_xml();
+			
 		}
 		
 		return jb;
@@ -371,16 +382,68 @@ public class BlackJack {
 			rjack_com = 0;
 			
 		} catch (DocumentException e) {
-			e.printStackTrace();
-			System.out.println("241: "+e.getMessage());
+			logger.error("line 380:"+e.getMessage(), e);
+			create_jack_xml();
+
 		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("244: "+e.getMessage());
+			logger.error("line 383:"+e.getMessage(), e);
+			create_jack_xml();
+
 		}
 		
 	}
 	
 	
+	/**
+	 * 產生jack.xml
+	 */
+	public void create_jack_xml(){
+		
+		Document doc = DocumentHelper.createDocument();
+		Element root = doc.addElement("root");
+		
+		String name[] = {"Spade", "Heart", "Diamond", "Club"}; 
+		String num[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q" ,"K"};
+		int value[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10 ,10};
+		int j = 0;
+		
+		for(int i=0; i<=12; i++){
+			root.addElement("jack").addAttribute("sn", String.valueOf(i)).addAttribute("name", name[0]).addAttribute("num", num[i]).addAttribute("value", String.valueOf(value[i])).addAttribute("use", "0");
+		}
+		
+		for(int i=13; i<=25; i++){
+			root.addElement("jack").addAttribute("sn", String.valueOf(i)).addAttribute("name", name[1]).addAttribute("num", num[j]).addAttribute("value", String.valueOf(value[j])).addAttribute("use", "0");
+			j++;
+		}
+		
+		j = 0; 
+		for(int i=26; i<=38; i++){
+			root.addElement("jack").addAttribute("sn", String.valueOf(i)).addAttribute("name", name[2]).addAttribute("num", num[j]).addAttribute("value", String.valueOf(value[j])).addAttribute("use", "0");
+			j++;
+		}
+		
+		j = 0;
+		for(int i=39; i<=51; i++){
+			root.addElement("jack").addAttribute("sn", String.valueOf(i)).addAttribute("name", name[3]).addAttribute("num", num[j]).addAttribute("value", String.valueOf(value[j])).addAttribute("use", "0");
+			j++;
+		}
+		
+		try {
+			
+			XMLWriter writer = new XMLWriter(new FileWriter("jack.xml"));	
+			writer.write(doc);			
+			writer.close();
+		
+		} catch (IOException e) {
+			logger.error("434:無法產生xml "+e.getMessage(), e);
+			
+		}
+		
+	}
+	
+	/**
+	 * 遊戲開始
+	 */
 	public void begin(){
 		
 		Scanner scanner = null;
@@ -391,6 +454,16 @@ public class BlackJack {
 		JackBean com = null;
 		
 		int as;
+		
+		//檢查jack.xml
+		try {
+			Reader rd = new FileReader("jack.xml");
+		} catch (FileNotFoundException e) {
+			//找不到jack.xml再產生jack.xml
+			logger.error("找不到jack.xml所以產生", e);
+			create_jack_xml();
+			logger.info("產生完成");
+		}
 		
 		do{
 			
@@ -541,6 +614,7 @@ public class BlackJack {
 		BlackJack bj = new BlackJack();
 		
 		bj.begin();
+		
 		
 		
 	}
