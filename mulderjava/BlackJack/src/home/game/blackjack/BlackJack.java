@@ -110,24 +110,47 @@ public class BlackJack {
 		return jb;
 	}
 	
-	
-	public void get_first_jack(JackBean user, JackBean com){
+	/**
+	 * 初次發牌，一次發兩張，玩家兩張都顯示
+	 * @param user - JackBean
+	 * @return rjack_user - int
+	 */
+	public void get_first_user_jack(JackBean user, int i){
 		rjack_user = rjack_user + user.getValue();
-		System.out.println("你的初始牌組為: "+user.getName()+"_"+user.getNum()+" 共"+rjack_user+"點");
+		
+		if(i == 0){
+			System.out.println("你的牌組為: "+user.getName()+"_"+user.getNum());
+		}else if(i == 1){
+			System.out.println("你的牌組為: "+user.getName()+"_"+user.getNum()+" 共"+rjack_user+"點");
+		}
+		
+	}
+	
+	/**
+	 * 初次發牌，一次發兩張，電腦只顯示一張
+	 * @param com - JackBean
+	 */
+	public void get_first_com_jack(JackBean com, int i){
 		rjack_com = rjack_com + com.getValue();
-		System.out.println("電腦初始牌組為: "+com.getName()+"_"+com.getNum()+" 共"+rjack_com+"點");
+		
+		if(i == 0){
+			System.out.println("電腦牌組為: "+com.getName()+"_"+com.getNum());
+		}else if(i == 1){
+			System.out.println("電腦牌組為: **********"+" 共"+(rjack_com - com.getValue())+"點");			
+		}
 		
 	}
 	
 	
 	
-	public void display_jack(JackBean user, JackBean com){
+	/**
+	 * 顯示玩家的點數
+	 * @param user
+	 */
+	public void display_jack(JackBean user){
 		
 		rjack_user = rjack_user + user.getValue();
 		System.out.println("你的牌組為: "+user.getName()+"_"+user.getNum()+" 共"+rjack_user+"點");
-		
-		//rjack_com = rjack_com + com.getValue();
-		//System.out.println("電腦牌組為: "+com.getName()+"_"+com.getNum()+" 共"+rjack_com+"點");
 		
 	}
 	
@@ -285,12 +308,10 @@ public class BlackJack {
 			writer.close(); 
 		
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("176: "+e.getMessage());
 		
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("181: "+e.getMessage());
 		}		
@@ -314,8 +335,7 @@ public class BlackJack {
 				jb.setUse(element.attributeValue("use"));	
 			}
 			
-		} catch (DocumentException e) {
-			
+		} catch (DocumentException e) {		
 			System.out.println("207: "+e.getMessage());
 		}
 		
@@ -427,12 +447,19 @@ public class BlackJack {
 		
 		gamble_info();	//顯示資訊
 		
-		//開始配發第一次牌
-		user =  get_jack();
-		com = get_jack();
+		//開始配發第一次牌，玩家電腦各發兩張牌
+		for(int i=0; i<2; i++){
+			user = get_jack();	
+			//顯示資訊
+			get_first_user_jack(user, i);
+		}
+		System.out.println("--------------------------------");
+		for(int i=0; i<2; i++){
+			com = get_jack();
+			//顯示資訊
+			get_first_com_jack(com, i);
+		}
 		
-		//顯示資訊
-		get_first_jack(user, com);
 		
 		do{
 			
@@ -448,13 +475,12 @@ public class BlackJack {
 					if(as == 1){
 						
 						user = get_jack();
-						display_jack(user, com);
+						display_jack(user);
 						t = count_user_jack_point();
 						
 					}else {
 						
 						//電腦計算核心
-						//com = get_jack();
 						com_computing();
 						
 						//System.out.println("376:");
