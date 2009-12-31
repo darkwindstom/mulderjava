@@ -43,7 +43,10 @@ public class BlackJack {
 		return true;
 		
 	}
-		
+	
+	/**
+	 * 輸入金額錯誤訊息
+	 */
 	private void errmsg_money() {
 		System.out.println("only chose 1~1000 doller");
 	}
@@ -63,7 +66,10 @@ public class BlackJack {
 		return true;
 		
 	}
-		
+	
+	/**
+	 * 輸入賭率錯誤訊息
+	 */
 	private void errmsg_gamble_num() {
 		System.out.println("only chose 1~10");
 	}
@@ -74,13 +80,9 @@ public class BlackJack {
 	private void gamble_info(){
 		System.out.println("你下注金額為 : "+gamble_money);
 		System.out.println("你的賭率為 : "+gamble_num);
-		//gamble_money = gamble_money * gamble_num;
-		//money = money - gamble_money;
 		System.out.println("你剩下的金額為 : "+(money - gamble_money));
 		
 	}
-	
-	
 	
 	/**
 	 * 抽牌直到抽到不是已經抽過的牌
@@ -98,20 +100,15 @@ public class BlackJack {
 		
 			if(jb.getUse().equals("1")){		
 				t = false;
-				//System.out.println("95: "+jb.getUse()+"|"+t);
 				
 			}else {
 				t = true;
 				
 			}
-		
-			//System.out.println("97: "+jb.getUse());
 			
 		}while(!t);
 		
 		set_used_jack(jb.getSn());
-		
-		//System.out.println("103: "+jb.getSn());
 		
 		count_jack++;
 		
@@ -163,7 +160,9 @@ public class BlackJack {
 	}
 	
 	
-	
+	/**
+	 * 電腦 ai
+	 */
 	public void com_computing(){
 		
 		JackBean com = new JackBean();
@@ -175,14 +174,12 @@ public class BlackJack {
 			com = get_jack();
 
 			if(com.getValue() <= 5){
-				//System.out.println("147:");
 				rjack_com = rjack_com + com.getValue();
 				System.out.println("電腦加牌");
 				
 				t = true;
 				
 			}else if(rjack_com < rjack_user){
-				//System.out.println("154:");
 				rjack_com = rjack_com + com.getValue();
 				System.out.println("電腦加牌");
 				
@@ -191,17 +188,13 @@ public class BlackJack {
 			}else {
 				
 				if(rjack_com + com.getValue() <= 20){
-					//System.out.println("163:");
 					rjack_com = rjack_com + com.getValue();
 					System.out.println("電腦加牌");
-					//System.out.println("144: "+rjack_com);
 					
 					t = true;
 					
 				}else {
-					//System.out.println("171:");
 					System.out.println("電腦不加牌");
-					//System.out.println("148: "+rjack_com);
 					
 					t = false;
 					
@@ -214,7 +207,10 @@ public class BlackJack {
 		
 	}
 	
-	
+	/**
+	 * 當使用者停牌後的統計點數
+	 * @return t - boolean
+	 */
 	public boolean count_user_jack_point(){
 		
 		boolean t = false;
@@ -240,7 +236,10 @@ public class BlackJack {
 		return t;
 	}
 	
-	
+	/**
+	 * 當電腦停牌後的統計點數
+	 * @return
+	 */
 	public boolean count_stop_add_jack(){
 		
 		boolean t = true;
@@ -281,7 +280,6 @@ public class BlackJack {
 		}else if(rjack_user == rjack_com){
 			
 			System.out.println("你的點數為: "+rjack_user+" 電腦的點數為: "+rjack_com+" 平手!");
-			//money = money - (gamble_money * gamble_num);
 			System.out.println("你的剩下金額為: "+money);
 			
 			t = true;
@@ -316,17 +314,20 @@ public class BlackJack {
 			writer.close(); 
 		
 		} catch (DocumentException e) {
-			logger.error("line 315:"+e.getMessage(), e);
+			logger.error("line 317:"+e.getMessage(), e);
 			create_jack_xml();
 		
 		} catch (IOException e) {
-			logger.error("line 319:"+e.getMessage(), e);
+			logger.error("line 321:"+e.getMessage(), e);
 			create_jack_xml();
 			
 		}		
 	}
 	
-	
+	/**
+	 * 抽牌系統
+	 * @return
+	 */
 	public JackBean random_jack(){
 		
 		JackBean jb = new JackBean();
@@ -345,7 +346,7 @@ public class BlackJack {
 			}
 			
 		} catch (DocumentException e) {
-			logger.error("line 344:"+e.getMessage(), e);
+			logger.error("line 349:"+e.getMessage(), e);
 			create_jack_xml();
 			
 		}
@@ -382,11 +383,11 @@ public class BlackJack {
 			rjack_com = 0;
 			
 		} catch (DocumentException e) {
-			logger.error("line 380:"+e.getMessage(), e);
+			logger.error("line 386:"+e.getMessage(), e);
 			create_jack_xml();
 
 		} catch (IOException e) {
-			logger.error("line 383:"+e.getMessage(), e);
+			logger.error("line 390:"+e.getMessage(), e);
 			create_jack_xml();
 
 		}
@@ -556,7 +557,6 @@ public class BlackJack {
 						//電腦計算核心
 						com_computing();
 						
-						//System.out.println("376:");
 						t = count_stop_add_jack();
 						
 					}
@@ -600,12 +600,9 @@ public class BlackJack {
 		    
 		}while(!t);
 
-		
 		if(yn == 1){
 			begin();
 		}
-		
-		//System.out.println("close");
 		
 	}
 	
@@ -614,8 +611,6 @@ public class BlackJack {
 		BlackJack bj = new BlackJack();
 		
 		bj.begin();
-		
-		
 		
 	}
 	
