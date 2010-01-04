@@ -458,6 +458,7 @@ public class BlackJack {
 		
 		//檢查jack.xml
 		try {
+			@SuppressWarnings("unused")
 			Reader rd = new FileReader("jack.xml");
 		} catch (FileNotFoundException e) {
 			//找不到jack.xml再產生jack.xml
