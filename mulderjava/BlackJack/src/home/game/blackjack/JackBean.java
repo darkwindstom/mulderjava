@@ -1,13 +1,12 @@
 package home.game.blackjack;
 
 public class JackBean {
-	
+
 	private String sn = "";
 	private String name = "";
 	private String num = "";
 	private Integer value = 0;
-	private String use = "";
-	
+
 	public String getSn() {
 		return sn;
 	}
@@ -31,12 +30,6 @@ public class JackBean {
 	}
 	public void setValue(Integer value) {
 		this.value = value;
-	}
-	public String getUse() {
-		return use;
-	}
-	public void setUse(String use) {
-		this.use = use;
 	}
 
 }
